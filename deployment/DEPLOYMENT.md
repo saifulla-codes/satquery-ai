@@ -45,29 +45,27 @@ cp .env.example .env
 ## 3. Production Backend Deployment (Docker)
 
 ```dockerfile
-# Dockerfile
+# Stage 1: Build Frontend
+FROM node:20-slim AS frontend-builder
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
+
+# Stage 2: Python / Flask Production Runtime
 FROM python:3.11-slim
-
+ENV PYTHONUNBUFFERED=1 PORT=8000 HOST=0.0.0.0
 WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libjpeg-dev \
-    zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 COPY requirements-prod.txt .
 RUN pip install --no-cache-dir -r requirements-prod.txt
-
-COPY . .
-
-# Build frontend into dist/
-# Or copy pre-built frontend/dist into frontend/dist
-
+COPY backend/ ./backend/
+COPY datasets/ ./datasets/
+COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
+RUN mkdir -p backend/uploads backend/generated_layers backend/analysis_cache datasets/samples
 EXPOSE 8000
-
-CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:8000", "--timeout", "120", "backend.main:app"]
+CMD ["sh", "-c", "exec gunicorn --workers 2 --threads 2 --bind 0.0.0.0:${PORT:-8000} --timeout 120 backend.main:app"]
 ```
 
 ---
