@@ -1,0 +1,14 @@
+# SatQuery AI — Core Production Dependencies
+# Target: Apple Silicon / Linux x86_64 / Cloud Container
+numpy>=1.26.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+Pillow>=10.0.0
+pydantic>=2.5.0
+Flask>=3.0.0
+flask-cors>=4.0.0
+httpx>=0.25.0
+gunicorn>=21.2.0
+
+# Optional Remote Vision-Language Provider SDKs
+groq>=0.11.0

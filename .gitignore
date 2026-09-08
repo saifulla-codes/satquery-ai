@@ -1,0 +1,77 @@
+# SatQuery AI — Git Ignore Rules
+# SIH 2026 Problem Statement: SIH26167 (ISRO)
+
+# Environments & Secret Files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!*.env.example
+!frontend/.env.example
+*.pem
+*.key
+*.cert
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime Uploads & Generated Layers (Preserve directory structure via .gitkeep)
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/generated_layers/*
+!backend/generated_layers/.gitkeep
+backend/analysis_cache/*
+!backend/analysis_cache/.gitkeep
+
+# System & Editor Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.log
